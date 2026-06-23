@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { fetchList } from '../lib/api'
+import { fetchList, getApiBase } from '../lib/api'
 
 export default function Users() {
   const [users, setUsers] = useState([])
@@ -8,6 +8,7 @@ export default function Users() {
   const [page, setPage] = useState(1)
   const [meta, setMeta] = useState({})
   const limit = 20
+  const endpointUrl = `${getApiBase()}/users`
 
   useEffect(() => {
     let mounted = true
@@ -33,6 +34,7 @@ export default function Users() {
 
   return (
     <div>
+      <div style={{ fontSize: 12, color: '#666', marginBottom: 8 }}>API: <a href={endpointUrl} target="_blank" rel="noreferrer">{endpointUrl}</a></div>
       <h2>Users</h2>
       <ul>
         {users.map((u) => (

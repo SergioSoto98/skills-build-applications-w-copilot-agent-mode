@@ -5,10 +5,14 @@ import Leaderboard from './components/Leaderboard'
 import Teams from './components/Teams'
 import Users from './components/Users'
 import Workouts from './components/Workouts'
+import { getApiBase } from './lib/api'
 
 const activeStyle = { fontWeight: 'bold', textDecoration: 'underline' }
 
 export default function App() {
+  const codespace = import.meta.env.VITE_CODESPACE_NAME || 'local'
+  const apiBase = getApiBase()
+
   return (
     <div style={{ fontFamily: 'sans-serif', padding: 24 }}>
       <header>
@@ -24,6 +28,9 @@ export default function App() {
           {' | '}
           <NavLink to="/leaderboard" style={({ isActive }) => (isActive ? activeStyle : undefined)}>Leaderboard</NavLink>
         </nav>
+        <div style={{ fontSize: 13, color: '#666' }}>
+          API: <a href={apiBase} target="_blank" rel="noreferrer">{apiBase}</a> — Environment: {codespace}
+        </div>
       </header>
 
       <main>
