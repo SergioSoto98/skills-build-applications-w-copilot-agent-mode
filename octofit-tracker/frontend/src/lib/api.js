@@ -1,4 +1,12 @@
-// Helper to build API base URL using Vite env (Codespaces) with safe fallback
+// Helper to build API base URL using Vite env (Codespaces) with safe fallback.
+//
+// Expected behavior:
+// - When `VITE_CODESPACE_NAME` is defined (e.g. in octofit-tracker/frontend/.env.local),
+//   the API base becomes: `https://${VITE_CODESPACE_NAME}-8000.app.github.dev/api`.
+// - If `VITE_CODESPACE_NAME` is not defined we avoid constructing URLs like
+//   `https://undefined-8000.app.github.dev` by using a local fallback that prefers
+//   the current host and port 8000 (e.g. `http(s)://<host>:8000/api`) and finally
+//   `http://localhost:8000/api` as a last resort.
 export function getApiBase() {
   const codespace = import.meta.env.VITE_CODESPACE_NAME
   if (codespace) {

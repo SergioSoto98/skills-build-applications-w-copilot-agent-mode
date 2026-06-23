@@ -10,7 +10,8 @@ import { getApiBase } from './lib/api'
 const activeStyle = { fontWeight: 'bold', textDecoration: 'underline' }
 
 export default function App() {
-  const codespace = import.meta.env.VITE_CODESPACE_NAME || 'local'
+  // Use Vite env; keep a human-friendly display value but rely on getApiBase() for requests
+  const codespace = import.meta.env.VITE_CODESPACE_NAME || null
   const apiBase = getApiBase()
 
   return (

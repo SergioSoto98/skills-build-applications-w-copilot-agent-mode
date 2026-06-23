@@ -3,13 +3,13 @@ Frontend (Vite + React 19)
 Environment
 - This frontend expects a Codespaces environment variable named `VITE_CODESPACE_NAME` when running inside GitHub Codespaces so it can build the API base URL used by the app.
 
-Create a local override file `.env.local` at the project root (`octofit-tracker/frontend/.env.local`) with this content when developing in Codespaces. This file must define `VITE_CODESPACE_NAME` so the app can construct the API URL used by the frontend:
+Create a local override file `.env.local` at the frontend folder (`octofit-tracker/frontend/.env.local`) when developing in Codespaces. This file must define `VITE_CODESPACE_NAME` so the app can construct the API URL used by the frontend.
 
-Example `.env.local`:
+Example `octofit-tracker/frontend/.env.local`:
 
 VITE_CODESPACE_NAME=your-codespace-name
 
-Replace `your-codespace-name` with the actual Codespace value (you can find it in the Codespaces UI).
+Replace `your-codespace-name` with the actual Codespace value (you can find it in the Codespaces UI). Do NOT commit `.env.local` to git.
 
 How the app builds the API URL
 - If `VITE_CODESPACE_NAME` is provided, the app will use:
