@@ -2,21 +2,32 @@ import React, { useEffect, useState } from 'react'
 import { fetchList } from '../lib/api'
 
 export default function Activities() {
-  const [items, setItems] = useState(null)
+  const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [page, setPage] = useState(1)
+  const [meta, setMeta] = useState({})
+  const limit = 20
 
   useEffect(() => {
+    let mounted = true
     setLoading(true)
-    fetchList('activities')
-      .then((list) => setItems(list))
+    fetchList('activities', { page, limit })
+      .then(({ items, meta }) => {
+        if (!mounted) return
+        setItems(items)
+        setMeta(meta || {})
+      })
       .catch((err) => setError(err.message || String(err)))
-      .finally(() => setLoading(false))
-  }, [])
+      .finally(() => mounted && setLoading(false))
+    return () => { mounted = false }
+  }, [page])
 
   if (loading) return <div>Loading activities…</div>
   if (error) return <div style={{ color: 'red' }}>Error: {error}</div>
   if (!items || items.length === 0) return <div>No activities found.</div>
+
+  const totalPages = meta.totalPages || Math.ceil((meta.total || 0) / (meta.limit || limit)) || undefined
 
   return (
     <div>
@@ -41,6 +52,14 @@ export default function Activities() {
           ))}
         </tbody>
       </table>
+
+      {totalPages ? (
+        <div style={{ marginTop: 12 }}>
+          <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1}>Prev</button>
+          <span style={{ margin: '0 8px' }}>Page {page} of {totalPages}</span>
+          <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page >= totalPages}>Next</button>
+        </div>
+      ) : null}
     </div>
   )
 }

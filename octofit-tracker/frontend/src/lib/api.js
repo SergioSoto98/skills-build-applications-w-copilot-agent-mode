@@ -16,21 +16,43 @@ export function getApiBase() {
   return 'http://localhost:8000/api'
 }
 
-export async function fetchList(endpoint) {
+// Fetch a list with optional query params (page, limit, filters)
+// Returns a normalized object: { items: Array, meta: { page, totalPages, total, perPage } }
+export async function fetchList(endpoint, params = {}) {
   const base = getApiBase()
-  const res = await fetch(`${base}/${endpoint}`)
+  const url = new URL(`${base}/${endpoint}`)
+  Object.entries(params || {}).forEach(([k, v]) => {
+    if (v != null) url.searchParams.set(k, String(v))
+  })
+
+  const res = await fetch(url.toString())
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
   const body = await res.json()
 
-  // Normalize paginated and array responses
-  if (Array.isArray(body)) return body
-  if (body.data && Array.isArray(body.data)) return body.data
-  if (body.items && Array.isArray(body.items)) return body.items
-  if (body.results && Array.isArray(body.results)) return body.results
-  // Fallback to scanning for the first array value
-  for (const key of Object.keys(body || {})) {
-    if (Array.isArray(body[key])) return body[key]
+  // Normalize items
+  let items = null
+  if (Array.isArray(body)) items = body
+  else if (body.data && Array.isArray(body.data)) items = body.data
+  else if (body.items && Array.isArray(body.items)) items = body.items
+  else if (body.results && Array.isArray(body.results)) items = body.results
+  else {
+    for (const key of Object.keys(body || {})) {
+      if (Array.isArray(body[key])) {
+        items = body[key]
+        break
+      }
+    }
   }
-  // If no array found, wrap the body as single-item array
-  return [body]
+  if (!items) items = [body]
+
+  // Extract pagination meta if present
+  const meta = {}
+  if (body.page != null) meta.page = Number(body.page)
+  if (body.totalPages != null) meta.totalPages = Number(body.totalPages)
+  if (body.total != null) meta.total = Number(body.total)
+  if (body.limit != null) meta.limit = Number(body.limit)
+  if (body.perPage != null) meta.perPage = Number(body.perPage)
+  if (body.meta && typeof body.meta === 'object') Object.assign(meta, body.meta)
+
+  return { items, meta }
 }
