@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Routes, Route, NavLink } from 'react-router-dom'
 import Activities from './components/Activities'
 import Leaderboard from './components/Leaderboard'
@@ -10,9 +10,9 @@ import { getApiBase } from './lib/api'
 const activeStyle = { fontWeight: 'bold', textDecoration: 'underline' }
 
 export default function App() {
-  // Use Vite env; keep a human-friendly display value but rely on getApiBase() for requests
-  const codespace = import.meta.env.VITE_CODESPACE_NAME || null
-  const apiBase = getApiBase()
+  // Use Vite env; display a friendly fallback and memoize the API base
+  const codespace = import.meta.env.VITE_CODESPACE_NAME || '(local)'
+  const apiBase = useMemo(() => getApiBase(), [])
 
   return (
     <div style={{ fontFamily: 'sans-serif', padding: 24 }}>

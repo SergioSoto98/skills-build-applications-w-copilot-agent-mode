@@ -8,7 +8,7 @@ export default function Activities() {
   const [page, setPage] = useState(1)
   const [meta, setMeta] = useState({})
   const limit = 20
-  const endpointUrl = `${getApiBase()}/activities`
+  const endpointUrl = `${getApiBase()}/activities/`
 
   useEffect(() => {
     let mounted = true

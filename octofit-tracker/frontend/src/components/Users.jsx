@@ -8,7 +8,7 @@ export default function Users() {
   const [page, setPage] = useState(1)
   const [meta, setMeta] = useState({})
   const limit = 20
-  const endpointUrl = `${getApiBase()}/users`
+  const endpointUrl = `${getApiBase()}/users/`
 
   useEffect(() => {
     let mounted = true

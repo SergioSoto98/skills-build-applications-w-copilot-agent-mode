@@ -8,7 +8,7 @@ export default function Leaderboard() {
   const [page, setPage] = useState(1)
   const [meta, setMeta] = useState({})
   const limit = 20
-  const endpointUrl = `${getApiBase()}/leaderboard`
+  const endpointUrl = `${getApiBase()}/leaderboard/`
 
   useEffect(() => {
     let mounted = true

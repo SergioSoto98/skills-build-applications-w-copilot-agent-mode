@@ -8,7 +8,7 @@ export default function Teams() {
   const [page, setPage] = useState(1)
   const [meta, setMeta] = useState({})
   const limit = 20
-  const endpointUrl = `${getApiBase()}/teams`
+  const endpointUrl = `${getApiBase()}/teams/`
 
   useEffect(() => {
     let mounted = true
