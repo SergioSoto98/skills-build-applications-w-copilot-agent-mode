@@ -1,5 +1,5 @@
 import express from 'express'
-import mongoose from 'mongoose'
+import { connectMongoose, getMongoUri } from './config/database'
 import usersRouter from './routes/users'
 import teamsRouter from './routes/teams'
 import activitiesRouter from './routes/activities'
@@ -9,7 +9,7 @@ import initRouter from './routes/init'
 
 const app = express()
 const PORT = process.env.PORT ? Number(process.env.PORT) : 8000
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/octofit_db'
+// MongoDB URI is provided by config/database (defaults to mongodb://localhost:27017/octofit_db)
 
 // Codespaces-aware API URL: when running inside Codespaces provide a public URL
 // Clients (frontend) can read this value from an endpoint or logs if needed.
@@ -34,8 +34,9 @@ app.get('/', (_req, res) => {
 
 async function start() {
   try {
-    await mongoose.connect(MONGO_URI)
-    console.log('Connected to MongoDB at', MONGO_URI)
+    await connectMongoose()
+    const uri = getMongoUri()
+    console.log('Connected to MongoDB at', uri)
     console.log('API URL:', API_URL)
     app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))
   } catch (err) {
