@@ -16,10 +16,9 @@ export default function Users() {
     fetchList('users', { page, limit })
       .then((res) => {
         if (!mounted) return
-        const out = Array.isArray(res) ? { items: res, meta: {} } : (res || {})
-        const itemsList = out.items || out.data || out.results || (Array.isArray(res) ? res : [])
-        setUsers(Array.isArray(itemsList) ? itemsList : [])
-        setMeta(out.meta || out || {})
+        const { items = [], meta = {} } = Array.isArray(res) ? { items: res, meta: {} } : (res || {})
+        setUsers(Array.isArray(items) ? items : [])
+        setMeta(meta || {})
       })
       .catch((err) => setError(err.message || String(err)))
       .finally(() => mounted && setLoading(false))

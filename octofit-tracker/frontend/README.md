@@ -5,6 +5,8 @@ Environment
 
 Required: `VITE_CODESPACE_NAME` must be defined in Codespaces (or provide a local `.env.local` override).
 
+Debe estar definido (por ejemplo, en `.env.local`).
+
 Create a local override file `.env.local` at the frontend folder (`octofit-tracker/frontend/.env.local`) when developing in Codespaces. This file must define `VITE_CODESPACE_NAME` so the app can construct the API URL used by the frontend.
 
 Example `octofit-tracker/frontend/.env.local`:

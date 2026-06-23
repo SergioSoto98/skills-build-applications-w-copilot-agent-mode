@@ -16,10 +16,9 @@ export default function Leaderboard() {
     fetchList('leaderboard', { page, limit })
       .then((res) => {
         if (!mounted) return
-        const out = Array.isArray(res) ? { items: res, meta: {} } : (res || {})
-        const itemsList = out.items || out.data || out.results || (Array.isArray(res) ? res : [])
-        setRows(Array.isArray(itemsList) ? itemsList : [])
-        setMeta(out.meta || out || {})
+        const { items = [], meta = {} } = Array.isArray(res) ? { items: res, meta: {} } : (res || {})
+        setRows(Array.isArray(items) ? items : [])
+        setMeta(meta || {})
       })
       .catch((err) => setError(err.message || String(err)))
       .finally(() => mounted && setLoading(false))

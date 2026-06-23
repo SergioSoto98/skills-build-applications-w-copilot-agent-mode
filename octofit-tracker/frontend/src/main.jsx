@@ -8,7 +8,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 // Log resolved environment info so developers can quickly see what API base will be used
 const codespace = import.meta.env.VITE_CODESPACE_NAME || null
 if (codespace) console.info('VITE_CODESPACE_NAME=', codespace)
-else console.info('VITE_CODESPACE_NAME is not set; falling back to the local backend on port 8000.')
+else {
+  console.info('VITE_CODESPACE_NAME is not set; falling back to the local backend on port 8000.')
+  console.warn('Define VITE_CODESPACE_NAME (e.g. in frontend/.env.local) to construct the Codespaces API URL')
+}
 
 const container = document.getElementById('root')
 if (!container) {

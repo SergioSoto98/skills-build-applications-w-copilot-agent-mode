@@ -8,7 +8,7 @@ import Workouts from './components/Workouts'
 import { getApiBase } from './lib/api'
 
 export default function App() {
-  const codespace = import.meta.env.VITE_CODESPACE_NAME || '(local)'
+  const codespace = import.meta.env.VITE_CODESPACE_NAME || null
   const apiBase = useMemo(() => getApiBase(), [])
 
   return (
@@ -24,7 +24,8 @@ export default function App() {
           <NavLink to="/leaderboard" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Leaderboard</NavLink>
         </nav>
 
-        <div className="small text-muted">API: <a href={apiBase} target="_blank" rel="noreferrer">{apiBase}</a> — Environment: {codespace}</div>
+        <div className="small text-muted">API: <a href={apiBase} target="_blank" rel="noreferrer">{apiBase}</a> — Environment: {codespace || '(local)'}</div>
+        { !codespace ? <div className="mt-1 small text-warning">Note: <strong>VITE_CODESPACE_NAME</strong> is not defined — using local backend fallback.</div> : null }
       </header>
 
       <main>
