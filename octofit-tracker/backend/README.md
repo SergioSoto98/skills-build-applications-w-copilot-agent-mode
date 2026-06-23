@@ -36,7 +36,11 @@ npm run seed --prefix octofit-tracker/backend
 ```
 
 Notes about configuration
-- To change the MongoDB connection string set `MONGO_URI` environment variable before running.
+- MongoDB connection:
+	- By default the project uses database name `octofit_db`.
+	- You can override the database name with the environment variable `MONGO_DB_NAME`.
+	- Or provide a full connection string via `MONGO_URI` (example: `mongodb://user:pass@host:27017/mydb`).
+	- `getMongoUri()` (in `src/config/database.ts`) selects `MONGO_URI` if present, otherwise constructs `mongodb://localhost:27017/${MONGO_DB_NAME}`.
 - In Codespaces the server exposes an `apiUrl` based on `CODESPACE_NAME` (see `/` root endpoint response).
 
 Verify data creation (example curl checks)
