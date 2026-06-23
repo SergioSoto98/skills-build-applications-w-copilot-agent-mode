@@ -15,7 +15,7 @@ const PORT = process.env.PORT ? Number(process.env.PORT) : 8000
 // Clients (frontend) can read this value from an endpoint or logs if needed.
 const CODESPACE_NAME = process.env.CODESPACE_NAME
 const API_URL = CODESPACE_NAME
-  ? `https://${CODESPACE_NAME}-8000.githubpreview.dev`
+  ? `https://${CODESPACE_NAME}-8000.app.github.dev`
   : `http://localhost:${PORT}`
 
 app.use(express.json())
