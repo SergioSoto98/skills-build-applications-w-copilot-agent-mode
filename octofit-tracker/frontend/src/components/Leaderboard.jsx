@@ -24,27 +24,27 @@ export default function Leaderboard() {
     return () => { mounted = false }
   }, [page])
 
-  if (loading) return <div>Loading leaderboard…</div>
-  if (error) return <div style={{ color: 'red' }}>Error: {error}</div>
-  if (!rows || rows.length === 0) return <div>No leaderboard data.</div>
+  if (loading) return <div className="d-flex align-items-center"><div className="spinner-border text-primary me-2" role="status" /><div>Loading leaderboard…</div></div>
+  if (error) return <div className="alert alert-danger">Error: {error}</div>
+  if (!rows || rows.length === 0) return <div className="text-muted">No leaderboard data.</div>
 
   const totalPages = meta.totalPages || Math.ceil((meta.total || 0) / (meta.limit || limit)) || undefined
 
   return (
     <div>
-      <div style={{ fontSize: 12, color: '#666', marginBottom: 8 }}>API: <a href={endpointUrl} target="_blank" rel="noreferrer">{endpointUrl}</a></div>
-      <h2>Leaderboard</h2>
-      <ol>
+      <div className="small text-muted mb-2">API: <a href={endpointUrl} target="_blank" rel="noreferrer">{endpointUrl}</a></div>
+      <h2 className="h5">Leaderboard</h2>
+      <ol className="list-group list-group-numbered mb-2">
         {rows.map((r, i) => (
-          <li key={r._id || r.id || i}>{r.name || r.username || r.team || JSON.stringify(r)}</li>
+          <li key={r._id || r.id || i} className="list-group-item">{r.name || r.username || r.team || JSON.stringify(r)}</li>
         ))}
       </ol>
 
       {totalPages ? (
-        <div style={{ marginTop: 12 }}>
-          <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1}>Prev</button>
-          <span style={{ margin: '0 8px' }}>Page {page} of {totalPages}</span>
-          <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page >= totalPages}>Next</button>
+        <div className="d-flex align-items-center gap-2">
+          <button className="btn btn-outline-secondary btn-sm" onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1}>Prev</button>
+          <div className="small">Page {page} of {totalPages}</div>
+          <button className="btn btn-outline-secondary btn-sm" onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page >= totalPages}>Next</button>
         </div>
       ) : null}
     </div>

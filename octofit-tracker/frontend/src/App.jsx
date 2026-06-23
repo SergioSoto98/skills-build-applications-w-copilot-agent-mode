@@ -7,31 +7,24 @@ import Users from './components/Users'
 import Workouts from './components/Workouts'
 import { getApiBase } from './lib/api'
 
-const activeStyle = { fontWeight: 'bold', textDecoration: 'underline' }
-
 export default function App() {
-  // Use Vite env; display a friendly fallback and memoize the API base
   const codespace = import.meta.env.VITE_CODESPACE_NAME || '(local)'
   const apiBase = useMemo(() => getApiBase(), [])
 
   return (
-    <div style={{ fontFamily: 'sans-serif', padding: 24 }}>
-      <header>
-        <h1>OctoFit Tracker</h1>
-        <nav style={{ marginBottom: 16 }}>
-          <NavLink to="/users" style={({ isActive }) => (isActive ? activeStyle : undefined)}>Users</NavLink>
-          {' | '}
-          <NavLink to="/activities" style={({ isActive }) => (isActive ? activeStyle : undefined)}>Activities</NavLink>
-          {' | '}
-          <NavLink to="/workouts" style={({ isActive }) => (isActive ? activeStyle : undefined)}>Workouts</NavLink>
-          {' | '}
-          <NavLink to="/teams" style={({ isActive }) => (isActive ? activeStyle : undefined)}>Teams</NavLink>
-          {' | '}
-          <NavLink to="/leaderboard" style={({ isActive }) => (isActive ? activeStyle : undefined)}>Leaderboard</NavLink>
+    <div className="container py-4">
+      <header className="mb-4">
+        <h1 className="h3">OctoFit Tracker</h1>
+
+        <nav className="nav nav-pills mb-2">
+          <NavLink to="/users" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Users</NavLink>
+          <NavLink to="/activities" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Activities</NavLink>
+          <NavLink to="/workouts" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Workouts</NavLink>
+          <NavLink to="/teams" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Teams</NavLink>
+          <NavLink to="/leaderboard" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Leaderboard</NavLink>
         </nav>
-        <div style={{ fontSize: 13, color: '#666' }}>
-          API: <a href={apiBase} target="_blank" rel="noreferrer">{apiBase}</a> — Environment: {codespace}
-        </div>
+
+        <div className="small text-muted">API: <a href={apiBase} target="_blank" rel="noreferrer">{apiBase}</a> — Environment: {codespace}</div>
       </header>
 
       <main>
