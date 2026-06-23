@@ -14,10 +14,12 @@ export default function Teams() {
     let mounted = true
     setLoading(true)
     fetchList('teams', { page, limit })
-      .then(({ items, meta }) => {
+      .then((res) => {
         if (!mounted) return
-        setTeams(items)
-        setMeta(meta || {})
+        const out = Array.isArray(res) ? { items: res, meta: {} } : (res || {})
+        const itemsList = out.items || out.data || out.results || (Array.isArray(res) ? res : [])
+        setTeams(Array.isArray(itemsList) ? itemsList : [])
+        setMeta(out.meta || out || {})
       })
       .catch((err) => setError(err.message || String(err)))
       .finally(() => mounted && setLoading(false))

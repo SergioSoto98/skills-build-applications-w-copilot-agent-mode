@@ -14,10 +14,12 @@ export default function Leaderboard() {
     let mounted = true
     setLoading(true)
     fetchList('leaderboard', { page, limit })
-      .then(({ items, meta }) => {
+      .then((res) => {
         if (!mounted) return
-        setRows(items)
-        setMeta(meta || {})
+        const out = Array.isArray(res) ? { items: res, meta: {} } : (res || {})
+        const itemsList = out.items || out.data || out.results || (Array.isArray(res) ? res : [])
+        setRows(Array.isArray(itemsList) ? itemsList : [])
+        setMeta(out.meta || out || {})
       })
       .catch((err) => setError(err.message || String(err)))
       .finally(() => mounted && setLoading(false))

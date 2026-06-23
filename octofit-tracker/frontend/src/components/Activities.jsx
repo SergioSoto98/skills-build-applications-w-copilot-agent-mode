@@ -14,10 +14,12 @@ export default function Activities() {
     let mounted = true
     setLoading(true)
     fetchList('activities', { page, limit })
-      .then(({ items, meta }) => {
+      .then((res) => {
         if (!mounted) return
-        setItems(items)
-        setMeta(meta || {})
+        const out = Array.isArray(res) ? { items: res, meta: {} } : (res || {})
+        const itemsList = out.items || out.data || out.results || (Array.isArray(res) ? res : [])
+        setItems(Array.isArray(itemsList) ? itemsList : [])
+        setMeta(out.meta || out || {})
       })
       .catch((err) => setError(err.message || String(err)))
       .finally(() => mounted && setLoading(false))
